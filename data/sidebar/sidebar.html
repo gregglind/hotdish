@@ -58,8 +58,11 @@ stop_fake = function(){
 
         <ul id="messagestream" ng-mouseover="msgPause()" ng-mouseleave="msgResume()">
           <!-- messages -->
-          <li ng-repeat="msg in messages">
-            <message message={{msg.message}} />
+          <li ng-repeat="msg in messages" ng-switch="msg.type">
+            <message ng-switch-when="join" message={{msg.message}} />
+            <message ng-switch-when="leave" message={{msg.message}} />
+            <message ng-switch-default message={{msg.message}} />
+
           </li>
         </ul>
 
