@@ -21,12 +21,15 @@
 
 var interval_1 = setInterval(function(){
   console.log("interval!");
-  var s;
+  var s, msgtype;
+
   s = angular.element("#messagestream").scope();
   if (s._mess.length > 6) {
     s._mess.shift();
   }
-  s._mess.push({message: "wut at: "+Date.now()});
+
+  msgtype = ['part','join'][~~(Date.now()%2)];
+  s._mess.push({type:msgtype, message: "wut at: "+Date.now()});
   //s.$apply();
   s.$emit("outsideMessage")
 },500);
@@ -38,6 +41,18 @@ stop_fake = function(){
 
 
     </script>
+
+
+<!-- you want templates in here instead?  FINE -->
+ <script type="text/ng-template" id="/templates/partmessage.html">
+PARTING {{message}}
+</script>
+
+ <script type="text/ng-template" id="/templates/partmessage.html">
+PARTING {{message}}
+</script>
+
+
   </head>
 
   <body ng-app="hotdishSidebar" class="sidepanel">  <!-- START SIDEBAR -->
@@ -60,7 +75,7 @@ stop_fake = function(){
           <!-- messages -->
           <li ng-repeat="msg in messages" ng-switch="msg.type">
             <message ng-switch-when="join" message={{msg.message}} />
-            <message ng-switch-when="leave" message={{msg.message}} />
+            <message ng-switch-when="part" message={{msg.message}} />
             <message ng-switch-default message={{msg.message}} />
 
           </li>
